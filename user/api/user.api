@@ -1,0 +1,46 @@
+syntax = "v1"
+
+info(
+	title: "用户"// TODO: add title
+	desc: "user" // TODO: add description
+	author: "lei"
+	email: "3096407768@qq.com"
+)
+
+type response {
+	Code int32             `json:"code"`
+	Msg  string            `json:"msg"`
+	Data map[string]string `json:"data"`
+}
+
+type (
+	//注册
+	register {
+		Username string `json:"username" form:"username"`
+		Password string `json:"password" form:"password"`
+		Phone    int64  `json:"phone" form:"phone"`
+	}
+	//登录
+	loginRes {
+		Username string `json:"username" form:"username"`
+		Password string `json:"password" form:"password"`
+	}
+)
+
+@server(
+	prefix: /api/user
+)
+
+service user-api {
+	@doc "登录"
+	@handler Login
+	post /login (loginRes) returns (response)
+
+	@doc "注册"
+	@handler Register
+	post /register (register) returns (response)
+
+	@doc "ping"
+	@handler ping
+	post /ping (register) returns (response)
+}
