@@ -2,7 +2,6 @@ package logic
 
 import (
 	"context"
-	"fmt"
 	"zero/user/rpc/user"
 
 	"zero/user/api/internal/svc"
@@ -26,11 +25,10 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginRes) (resp *types.Response, err error) {
-	fmt.Println(req)
 	// todo: add your logic here and delete this line
 	login, err := l.svcCtx.User.Login(l.ctx, &user.LoginRes{
-		Username: "1",
-		Password: "2",
+		Username: req.Username,
+		Password: req.Password,
 	})
 	if err != nil {
 		return nil, err

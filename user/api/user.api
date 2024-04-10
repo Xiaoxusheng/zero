@@ -22,8 +22,8 @@ type (
 	}
 	//登录
 	loginRes {
-		Username string `json:"username" form:"username"`
-		Password string `json:"password" form:"password"`
+		Username string `form:"username"`
+		Password string `form:"password"`
 	}
 )
 
