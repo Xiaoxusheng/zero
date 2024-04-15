@@ -23,7 +23,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func (l *RegisterLogic) Register(req *types.Register) (resp *types.Response, err error) {
+func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
 
 	return

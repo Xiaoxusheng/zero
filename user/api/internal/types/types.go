@@ -7,13 +7,13 @@ type Response struct {
 	Data map[string]string `json:"data"`
 }
 
-type Register struct {
+type RegisterReq struct {
 	Username string `json:"username" form:"username"`
 	Password string `json:"password" form:"password"`
 	Phone    int64  `json:"phone" form:"phone"`
 }
 
-type LoginRes struct {
+type LoginReq struct {
 	Username string `form:"username"`
 	Password string `form:"password"`
 }

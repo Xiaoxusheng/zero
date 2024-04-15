@@ -24,8 +24,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
-				Path:    "/ping",
-				Handler: pingHandler(serverCtx),
+				Path:    "/info",
+				Handler: InfoHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/api/user"),

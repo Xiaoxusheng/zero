@@ -2,5 +2,24 @@ Name: user.rpc
 ListenOn: 0.0.0.0:8081
 Etcd:
   Hosts:
-  - 127.0.0.1:2379
+    - 127.0.0.1:2379
   Key: user.rpc
+
+DB:
+  Dsn: "root:admin@tcp(127.0.0.1:3306)/tiktok?charset=utf8mb4&parseTime=True&loc=Local"
+  MaxIdleConns: 100
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+
+Redis:
+  Addr: "xlei.love:6379"
+  Password: "admin123"
+  DB: 0
+  PoolSize: 0
+  MinIdleConns: 100
+  MaxIdleConns: 100
+  ConnMaxIdleTime: 10
+  DialTimeout: 2
+  ReadTimeout: 5
+  WriteTimeout: 5
+  Time: 5

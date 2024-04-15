@@ -15,13 +15,13 @@ type response {
 
 type (
 	//注册
-	register {
+	registerReq {
 		Username string `json:"username" form:"username"`
 		Password string `json:"password" form:"password"`
 		Phone    int64  `json:"phone" form:"phone"`
 	}
 	//登录
-	loginRes {
+	loginReq {
 		Username string `form:"username"`
 		Password string `form:"password"`
 	}
@@ -34,13 +34,13 @@ type (
 service user-api {
 	@doc "登录"
 	@handler Login
-	post /login (loginRes) returns (response)
+	post /login (loginReq) returns (response)
 
 	@doc "注册"
 	@handler Register
-	post /register (register) returns (response)
+	post /register (registerReq) returns (response)
 
-	@doc "ping"
-	@handler ping
-	post /ping (register) returns (response)
+	@doc "个人信息"
+	@handler Info
+	post /info returns (response)
 }

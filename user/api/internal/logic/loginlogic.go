@@ -24,7 +24,7 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 	}
 }
 
-func (l *LoginLogic) Login(req *types.LoginRes) (resp *types.Response, err error) {
+func (l *LoginLogic) Login(req *types.LoginReq) (resp *types.Response, err error) {
 	// todo: add your logic here and delete this line
 	login, err := l.svcCtx.User.Login(l.ctx, &user.LoginRes{
 		Username: req.Username,
