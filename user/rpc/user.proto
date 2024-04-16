@@ -10,12 +10,16 @@ message response {
   string  msg = 2;
 }
 
-
+//登录
 message loginRes {
   string  username = 1;
   string password = 2;
 }
 
+//用户信息
+message info {
+
+}
 
 
 service users {
