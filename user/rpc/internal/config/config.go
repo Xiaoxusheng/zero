@@ -12,4 +12,17 @@ type Config struct {
 		MaxOpenConns    int   `json:",default=100"`
 		ConnMaxLifetime int64 `json:",default=3600"`
 	}
+	RedisCache struct {
+		Addr            string
+		Password        string
+		DB              int
+		PoolSize        int
+		MinIdleConns    int
+		MaxIdleConns    int
+		ConnMaxIdleTime int
+		DialTimeout     int
+		ReadTimeout     int
+		WriteTimeout    int
+		Time            int32
+	}
 }

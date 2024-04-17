@@ -1,6 +1,8 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+)
 
 type User struct {
 	Username string `gorm:"type:varchar(36) not null unique; comment:'用户名'"   json:"username,omitempty"`
@@ -21,5 +23,10 @@ type UserMode struct {
 }
 
 func NewUser(db *gorm.DB) *UserMode {
+	//err := db.AutoMigrate(&User{})
+	//if err != nil {
+	//	fmt.Println(err)
+	//	panic(err)
+	//}
 	return &UserMode{db: db}
 }

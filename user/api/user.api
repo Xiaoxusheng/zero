@@ -1,46 +1,55 @@
 syntax = "v1"
 
 info(
-	title: "用户"// TODO: add title
-	desc: "user" // TODO: add description
-	author: "lei"
-	email: "3096407768@qq.com"
+    title: "用户"// TODO: add title
+    desc: "user" // TODO: add description
+    author: "lei"
+    email: "3096407768@qq.com"
 )
 
 type response {
-	Code int32             `json:"code"`
-	Msg  string            `json:"msg"`
-	Data map[string]string `json:"data"`
+    Code int32 `json:"code"`
+    Msg string `json:"msg"`
+    Data map[string]string `json:"data"`
 }
 
 type (
-	//注册
-	registerReq {
-		Username string `json:"username" form:"username"`
-		Password string `json:"password" form:"password"`
-		Phone    int64  `json:"phone" form:"phone"`
-	}
-	//登录
-	loginReq {
-		Username string `form:"username"`
-		Password string `form:"password"`
-	}
+    //注册
+    registerReq {
+        Username string `json:"username" form:"username"`
+        Password string `json:"password" form:"password"`
+        Phone int64 `json:"phone" form:"phone"`
+    }
+        //登录
+    loginReq {
+        Username string `form:"username"`
+        Password string `form:"password"`
+    }
 )
 
 @server(
-	prefix: /api/user
+    prefix: /api/user
 )
 
 service user-api {
-	@doc "登录"
-	@handler Login
-	post /login (loginReq) returns (response)
+    @doc "登录"
+    @handler Login
+    post /login (loginReq) returns (response)
 
-	@doc "注册"
-	@handler Register
-	post /register (registerReq) returns (response)
-
-	@doc "个人信息"
-	@handler Info
-	post /info returns (response)
+    @doc "注册"
+    @handler Register
+    post /register (registerReq) returns (response)
 }
+
+// 需要权限验证的接口
+@server(
+    prefix: /api/user
+    jwt: Auth
+)
+
+service user-api {
+    @doc "个人信息"
+    @handler Info
+    post /info returns (response)
+}
+

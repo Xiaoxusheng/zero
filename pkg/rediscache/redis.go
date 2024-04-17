@@ -1,6 +1,5 @@
-package cache
+package rediscache
 
-import "C"
 import (
 	"context"
 	"fmt"
@@ -15,15 +14,16 @@ type Redis struct {
 	PoolSize        int
 	MinIdleConns    int
 	MaxIdleConns    int
-	ConnMaxIdleTime time.Duration
-	DialTimeout     time.Duration
-	ReadTimeout     time.Duration
-	WriteTimeout    time.Duration
+	ConnMaxIdleTime int
+	DialTimeout     int
+	ReadTimeout     int
+	WriteTimeout    int
 	Time            int32
 }
 
 // NewRedis  连接redis
 func NewRedis(r *Redis) *redis.Client {
+	fmt.Println(r)
 	rdb := redis.NewClient(&redis.Options{
 		Addr:            r.Addr,
 		Password:        r.Password, // 没有密码，默认值
@@ -31,9 +31,9 @@ func NewRedis(r *Redis) *redis.Client {
 		PoolSize:        r.PoolSize,
 		MinIdleConns:    r.MinIdleConns,
 		MaxIdleConns:    r.MaxIdleConns,
-		ReadTimeout:     r.ReadTimeout,
-		WriteTimeout:    r.WriteTimeout,
-		ConnMaxIdleTime: r.ConnMaxIdleTime * time.Second,
+		ReadTimeout:     time.Duration(r.ReadTimeout) * time.Second,
+		WriteTimeout:    time.Duration(r.WriteTimeout) * time.Second,
+		ConnMaxIdleTime: time.Duration(r.ConnMaxIdleTime) * time.Second,
 	}).WithTimeout(time.Duration(r.Time) * time.Second)
 	ctx := context.Background()
 	res, err := rdb.Ping(ctx).Result()
