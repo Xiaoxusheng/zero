@@ -22,7 +22,14 @@ func NewUsersServer(svcCtx *svc.ServiceContext) *UsersServer {
 	}
 }
 
+// 用户登录
 func (s *UsersServer) Login(ctx context.Context, in *user.LoginRes) (*user.Response, error) {
 	l := logic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
+}
+
+// 用户注册
+func (s *UsersServer) Register(ctx context.Context, in *user.RegisterRes) (*user.RegisterReq, error) {
+	l := logic.NewRegisterLogic(ctx, s.svcCtx)
+	return l.Register(in)
 }

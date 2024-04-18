@@ -18,6 +18,7 @@ type (
     registerReq {
         Username string `json:"username" form:"username"`
         Password string `json:"password" form:"password"`
+
         Phone int64 `json:"phone" form:"phone"`
     }
         //登录

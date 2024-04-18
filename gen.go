@@ -16,6 +16,8 @@ package zero
 //生成user.rpc
 //go:generate goctl rpc protoc ./user/rpc/user.proto --go_out=./user/rpc --go-grpc_out=./user/rpc --zrpc_out=./user/rpc
 
+//goctl rpc protoc user.proto --go_out=. --go-grpc_out=. --zrpc_out=.
+
 //运行 api
 //go:generate   go run user.go -f etc/user-api.yaml
 //运行rpc

@@ -5,23 +5,37 @@ package user;
 option go_package = "./user";
 
 
-message response {
+message Response {
   int32 code = 1;
   string  msg = 2;
 }
 
+//注册
+message RegisterRes{
+  string name = 1;
+  string password = 2;
+  string Phone = 3;
+  int32 sex = 4;
+  string background_image = 5;
+  string avatar = 6;
+}
+
+//注册
+message RegisterReq{
+  int32 code = 1;
+  string msg = 2;
+}
+
 //登录
-message loginRes {
+message LoginRes {
   string  username = 1;
   string password = 2;
 }
 
-//用户信息
-message info {
 
-}
-
-
-service users {
-  rpc login(loginRes) returns(response);
+service Users {
+  //  用户登录
+  rpc Login(LoginRes) returns(Response);
+  // 用户注册
+  rpc Register(RegisterRes) returns(RegisterReq);
 }
