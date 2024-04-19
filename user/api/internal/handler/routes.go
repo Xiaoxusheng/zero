@@ -22,12 +22,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/register",
 				Handler: RegisterHandler(serverCtx),
 			},
+		},
+		rest.WithPrefix("/api/user"),
+		rest.WithMaxBytes(1048576),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
 			{
 				Method:  http.MethodPost,
 				Path:    "/info",
 				Handler: InfoHandler(serverCtx),
 			},
 		},
+		rest.WithJwt(serverCtx.Config.Auth.AccessSecret),
 		rest.WithPrefix("/api/user"),
+		rest.WithMaxBytes(1048576),
 	)
 }

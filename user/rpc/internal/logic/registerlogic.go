@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"net/http"
+	"zero/pkg/rediscache"
 	"zero/user/code"
 	"zero/user/model"
 	"zero/utils"
@@ -49,8 +50,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRes) (*user.RegisterReq, error
 	}
 	//加盐加密
 	pwd := utils.HashPassword(in.Password, salt)
-	//生成唯一uid
-
+	uid := utils.GetUidV4()
 	//插入数据库
 	err = l.svcCtx.UserModel.InsertUser(l.ctx, &model.User{
 		Name:            in.Name,
@@ -60,11 +60,13 @@ func (l *RegisterLogic) Register(in *user.RegisterRes) (*user.RegisterReq, error
 		Sex:             in.Sex,
 		Avatar:          in.Avatar,
 		BackgroundImage: in.BackgroundImage,
-		Uid:             2,
+		Uid:             uid,
 	})
 	if err != nil {
 		return nil, err
 	}
+	//写入缓存
+	l.svcCtx.Redis.HSet(l.ctx, uid, rediscache.Salt, base64.URLEncoding.EncodeToString(salt))
 
 	return &user.RegisterReq{
 		Code: http.StatusOK,

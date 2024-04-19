@@ -1,56 +1,68 @@
 syntax = "v1"
 
 info(
-    title: "用户"// TODO: add title
-    desc: "user" // TODO: add description
-    author: "lei"
-    email: "3096407768@qq.com"
+	title: "用户"// TODO: add title
+	desc: "user" // TODO: add description
+	author: "lei"
+	email: "3096407768@qq.com"
 )
 
 type response {
-    Code int32 `json:"code"`
-    Msg string `json:"msg"`
-    Data map[string]string `json:"data"`
+	Code int32  `json:"code"`
+	Msg  string `json:"msg"`
 }
 
 type (
-    //注册
-    registerReq {
-        Username string `json:"username" form:"username"`
-        Password string `json:"password" form:"password"`
-
-        Phone int64 `json:"phone" form:"phone"`
-    }
-        //登录
-    loginReq {
-        Username string `form:"username"`
-        Password string `form:"password"`
-    }
+	//注册
+	registerReq {
+		Username        string `form:"username"`
+		Password        string `form:"password"`
+		Sex             int32  `from:"sex"`
+		Phone           string `form:"phone"`
+		BackgroundImage string `form:"backgroundImage"`
+		Avatar          string `form:"avatar"`
+	}
+	//登录
+	loginReq {
+		Username string `form:"username"`
+		Password string `form:"password"`
+	}
+	loginResp {
+		Token           string `json:"token"`
+		Name            string `json:"name"`
+		Sex             int32  `json:"sex"`
+		Phone           string `json:"phone"`
+		BackgroundImage string `json:"backgroundImage"`
+		Avatar          string `json:"avatar"`
+		Code            int32  `json:"code"`
+		Msg             string `json:"msg"`
+	}
 )
 
 @server(
-    prefix: /api/user
+	prefix: /api/user
+	maxBytes: 1048576
 )
 
 service user-api {
-    @doc "登录"
-    @handler Login
-    post /login (loginReq) returns (response)
+	@doc "登录"
+	@handler Login
+	post /login (loginReq) returns (loginResp)
 
-    @doc "注册"
-    @handler Register
-    post /register (registerReq) returns (response)
+	@doc "注册"
+	@handler Register
+	post /register (registerReq) returns (response)
 }
 
 // 需要权限验证的接口
 @server(
-    prefix: /api/user
-    jwt: Auth
+	prefix: /api/user
+	jwt: Auth
+	maxBytes: 1048576
 )
 
 service user-api {
-    @doc "个人信息"
-    @handler Info
-    post /info returns (response)
+	@doc "个人信息"
+	@handler Info
+	post /info returns (response)
 }
-

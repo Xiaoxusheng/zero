@@ -13,7 +13,7 @@ type User struct {
 	Sex             int32  `gorm:"type:int not null; comment:'性别'"  json:"sex,omitempty"`
 	Avatar          string `gorm:"type:varchar(36) not null unique; comment:'头像'"  json:"avatar,omitempty"`
 	BackgroundImage string `gorm:"type:varchar(36) not null ; comment:'背景图'"   json:"background_image"`
-	Uid             uint   ` gorm:"type:int not null unique; comment:'用户唯一id'" json:"uid"`
+	Uid             string ` gorm:"type:int not null unique; comment:'用户唯一uid'" json:"uid"`
 	gorm.Model
 }
 
@@ -57,4 +57,13 @@ func (u *UserMode) FindName(ctx context.Context, name string) (*User, error) {
 // InsertUser 注册用户
 func (u *UserMode) InsertUser(ctx context.Context, user *User) error {
 	return u.db.WithContext(ctx).Create(user).Error
+}
+
+func (u *UserMode) FindUser(ctx context.Context, name string) (*User, error) {
+	user := new(User)
+	err := u.db.WithContext(ctx).Where("name=?", name).Find(user).Error
+	if err != nil {
+		return nil, err
+	}
+	return user, nil
 }

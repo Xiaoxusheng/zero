@@ -23,7 +23,7 @@ func NewUsersServer(svcCtx *svc.ServiceContext) *UsersServer {
 }
 
 // 用户登录
-func (s *UsersServer) Login(ctx context.Context, in *user.LoginRes) (*user.Response, error) {
+func (s *UsersServer) Login(ctx context.Context, in *user.LoginRes) (*user.LoginResp, error) {
 	l := logic.NewLoginLogic(ctx, s.svcCtx)
 	return l.Login(in)
 }

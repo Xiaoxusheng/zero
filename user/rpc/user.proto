@@ -32,10 +32,21 @@ message LoginRes {
   string password = 2;
 }
 
+message LoginResp {
+  string uid=1;
+  string  name = 2;
+  string Phone = 3;
+  int32 sex = 4;
+  string background_image = 5;
+  string avatar = 6;
+  int32 code = 7;
+  string msg = 8;
+}
+
 
 service Users {
   //  用户登录
-  rpc Login(LoginRes) returns(Response);
+  rpc Login(LoginRes) returns(LoginResp);
   // 用户注册
   rpc Register(RegisterRes) returns(RegisterReq);
 }

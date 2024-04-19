@@ -2,18 +2,31 @@
 package types
 
 type Response struct {
-	Code int32             `json:"code"`
-	Msg  string            `json:"msg"`
-	Data map[string]string `json:"data"`
+	Code int32  `json:"code"`
+	Msg  string `json:"msg"`
 }
 
 type RegisterReq struct {
-	Username string `json:"username" form:"username"`
-	Password string `json:"password" form:"password"`
-	Phone    int64  `json:"phone" form:"phone"`
+	Username        string `form:"username"`
+	Password        string `form:"password"`
+	Sex             int32  `from:"sex"`
+	Phone           string `form:"phone"`
+	BackgroundImage string `form:"backgroundImage"`
+	Avatar          string `form:"avatar"`
 }
 
 type LoginReq struct {
 	Username string `form:"username"`
 	Password string `form:"password"`
+}
+
+type LoginResp struct {
+	Token           string `json:"token"`
+	Name            string `json:"name"`
+	Sex             int32  `json:"sex"`
+	Phone           string `json:"phone"`
+	BackgroundImage string `json:"backgroundImage"`
+	Avatar          string `json:"avatar"`
+	Code            int32  `json:"code"`
+	Msg             string `json:"msg"`
 }

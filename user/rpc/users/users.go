@@ -14,13 +14,14 @@ import (
 
 type (
 	LoginRes    = user.LoginRes
+	LoginResp   = user.LoginResp
 	RegisterReq = user.RegisterReq
 	RegisterRes = user.RegisterRes
 	Response    = user.Response
 
 	Users interface {
 		// 用户登录
-		Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*Response, error)
+		Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*LoginResp, error)
 		// 用户注册
 		Register(ctx context.Context, in *RegisterRes, opts ...grpc.CallOption) (*RegisterReq, error)
 	}
@@ -37,7 +38,7 @@ func NewUsers(cli zrpc.Client) Users {
 }
 
 // 用户登录
-func (m *defaultUsers) Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*Response, error) {
+func (m *defaultUsers) Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*LoginResp, error) {
 	client := user.NewUsersClient(m.cli.Conn())
 	return client.Login(ctx, in, opts...)
 }

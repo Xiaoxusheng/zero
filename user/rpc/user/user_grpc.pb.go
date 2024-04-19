@@ -19,8 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Users_Login_FullMethodName    = "/user.Users/login"
-	Users_Register_FullMethodName = "/user.Users/register"
+	Users_Login_FullMethodName    = "/user.Users/Login"
+	Users_Register_FullMethodName = "/user.Users/Register"
 )
 
 // UsersClient is the client API for Users service.
@@ -28,7 +28,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UsersClient interface {
 	// 用户登录
-	Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*Response, error)
+	Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*LoginResp, error)
 	// 用户注册
 	Register(ctx context.Context, in *RegisterRes, opts ...grpc.CallOption) (*RegisterReq, error)
 }
@@ -41,8 +41,8 @@ func NewUsersClient(cc grpc.ClientConnInterface) UsersClient {
 	return &usersClient{cc}
 }
 
-func (c *usersClient) Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*Response, error) {
-	out := new(Response)
+func (c *usersClient) Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*LoginResp, error) {
+	out := new(LoginResp)
 	err := c.cc.Invoke(ctx, Users_Login_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (c *usersClient) Register(ctx context.Context, in *RegisterRes, opts ...grp
 // for forward compatibility
 type UsersServer interface {
 	// 用户登录
-	Login(context.Context, *LoginRes) (*Response, error)
+	Login(context.Context, *LoginRes) (*LoginResp, error)
 	// 用户注册
 	Register(context.Context, *RegisterRes) (*RegisterReq, error)
 	mustEmbedUnimplementedUsersServer()
@@ -74,7 +74,7 @@ type UsersServer interface {
 type UnimplementedUsersServer struct {
 }
 
-func (UnimplementedUsersServer) Login(context.Context, *LoginRes) (*Response, error) {
+func (UnimplementedUsersServer) Login(context.Context, *LoginRes) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
 func (UnimplementedUsersServer) Register(context.Context, *RegisterRes) (*RegisterReq, error) {
@@ -137,11 +137,11 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*UsersServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "login",
+			MethodName: "Login",
 			Handler:    _Users_Login_Handler,
 		},
 		{
-			MethodName: "register",
+			MethodName: "Register",
 			Handler:    _Users_Register_Handler,
 		},
 	},
