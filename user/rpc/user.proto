@@ -42,11 +42,16 @@ message LoginResp {
   int32 code = 7;
   string msg = 8;
 }
+//用户信息
+message UserInfo {
+
+}
 
 
 service Users {
-  //  用户登录
+  // 用户登录
   rpc Login(LoginRes) returns(LoginResp);
   // 用户注册
   rpc Register(RegisterRes) returns(RegisterReq);
+
 }

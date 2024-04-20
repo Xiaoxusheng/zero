@@ -33,7 +33,8 @@ func (l *LoginLogic) Login(in *user.LoginRes) (*user.LoginResp, error) {
 	//判断用户是否存在
 	userinfo, err := l.svcCtx.UserModel.FindName(l.ctx, in.Username)
 	if err != nil {
-		return nil, err
+		l.Logger.Error("查询出错", err)
+		return nil, code.UserNotFoundError
 	}
 	//判断密码是否正确
 	salt := l.svcCtx.Redis.HGet(l.ctx, userinfo.Uid, rediscache.Salt).Val()
