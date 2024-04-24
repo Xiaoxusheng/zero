@@ -1,3 +1,30 @@
 Name: video-api
 Host: 0.0.0.0
 Port: 8888
+
+Video:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: video.rpc
+
+
+
+DB:
+  Dsn: "root:admin123@tcp(127.0.0.1:3306)/tiktok?charset=utf8mb4&parseTime=True&loc=Local"
+  MaxIdleConns: 100
+  MaxOpenConns: 100
+  ConnMaxLifetime: 3600
+
+RedisCache:
+  Addr: "xlei.love:6379"
+  Password: "admin123"
+  DB: 0
+  PoolSize: 0
+  MinIdleConns: 100
+  MaxIdleConns: 100
+  ConnMaxIdleTime: 10
+  DialTimeout: 2
+  ReadTimeout: 5
+  WriteTimeout: 5
+  Time: 5

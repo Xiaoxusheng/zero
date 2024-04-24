@@ -19,89 +19,89 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Video_Ping_FullMethodName = "/video.Video/Ping"
+	VideoServer_Ping_FullMethodName = "/video.VideoServer/Ping"
 )
 
-// VideoClient is the client API for Video service.
+// VideoServerClient is the client API for VideoServer service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type VideoClient interface {
+type VideoServerClient interface {
 	Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
 }
 
-type videoClient struct {
+type videoServerClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewVideoClient(cc grpc.ClientConnInterface) VideoClient {
-	return &videoClient{cc}
+func NewVideoServerClient(cc grpc.ClientConnInterface) VideoServerClient {
+	return &videoServerClient{cc}
 }
 
-func (c *videoClient) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (c *videoServerClient) Ping(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
 	out := new(Response)
-	err := c.cc.Invoke(ctx, Video_Ping_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, VideoServer_Ping_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// VideoServer is the server API for Video service.
-// All implementations must embed UnimplementedVideoServer
+// VideoServerServer is the server API for VideoServer service.
+// All implementations must embed UnimplementedVideoServerServer
 // for forward compatibility
-type VideoServer interface {
+type VideoServerServer interface {
 	Ping(context.Context, *Request) (*Response, error)
-	mustEmbedUnimplementedVideoServer()
+	mustEmbedUnimplementedVideoServerServer()
 }
 
-// UnimplementedVideoServer must be embedded to have forward compatible implementations.
-type UnimplementedVideoServer struct {
+// UnimplementedVideoServerServer must be embedded to have forward compatible implementations.
+type UnimplementedVideoServerServer struct {
 }
 
-func (UnimplementedVideoServer) Ping(context.Context, *Request) (*Response, error) {
+func (UnimplementedVideoServerServer) Ping(context.Context, *Request) (*Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Ping not implemented")
 }
-func (UnimplementedVideoServer) mustEmbedUnimplementedVideoServer() {}
+func (UnimplementedVideoServerServer) mustEmbedUnimplementedVideoServerServer() {}
 
-// UnsafeVideoServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to VideoServer will
+// UnsafeVideoServerServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to VideoServerServer will
 // result in compilation errors.
-type UnsafeVideoServer interface {
-	mustEmbedUnimplementedVideoServer()
+type UnsafeVideoServerServer interface {
+	mustEmbedUnimplementedVideoServerServer()
 }
 
-func RegisterVideoServer(s grpc.ServiceRegistrar, srv VideoServer) {
-	s.RegisterService(&Video_ServiceDesc, srv)
+func RegisterVideoServerServer(s grpc.ServiceRegistrar, srv VideoServerServer) {
+	s.RegisterService(&VideoServer_ServiceDesc, srv)
 }
 
-func _Video_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _VideoServer_Ping_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(VideoServer).Ping(ctx, in)
+		return srv.(VideoServerServer).Ping(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: Video_Ping_FullMethodName,
+		FullMethod: VideoServer_Ping_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(VideoServer).Ping(ctx, req.(*Request))
+		return srv.(VideoServerServer).Ping(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Video_ServiceDesc is the grpc.ServiceDesc for Video service.
+// VideoServer_ServiceDesc is the grpc.ServiceDesc for VideoServer service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Video_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "video.Video",
-	HandlerType: (*VideoServer)(nil),
+var VideoServer_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "video.VideoServer",
+	HandlerType: (*VideoServerServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Ping",
-			Handler:    _Video_Ping_Handler,
+			Handler:    _VideoServer_Ping_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
