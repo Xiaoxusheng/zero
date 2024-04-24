@@ -37,6 +37,17 @@ type (
 		Code            int32  `json:"code"`
 		Msg             string `json:"msg"`
 	}
+	//用户信息
+	userinfoResp {
+		Username        string `json:"username"`
+		Password        string `json:"password"`
+		Sex             int32  `json:"sex"`
+		Phone           string `json:"phone"`
+		BackgroundImage string `json:"backgroundImage"`
+		Avatar          string `json:"avatar"`
+		Code            int32  `json:"code"`
+		Msg             string `json:"msg"`
+	}
 )
 
 @server(
@@ -64,5 +75,9 @@ service user-api {
 service user-api {
 	@doc "个人信息"
 	@handler Info
-	post /info returns (response)
+	post /info returns (userinfoResp)
+
+	@doc "退出登录"
+	@handler Logout
+	post /logout returns (response)
 }

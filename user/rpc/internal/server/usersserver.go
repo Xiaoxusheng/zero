@@ -29,7 +29,19 @@ func (s *UsersServer) Login(ctx context.Context, in *user.LoginRes) (*user.Login
 }
 
 // 用户注册
-func (s *UsersServer) Register(ctx context.Context, in *user.RegisterRes) (*user.RegisterReq, error) {
+func (s *UsersServer) Register(ctx context.Context, in *user.RegisterReq) (*user.RegisterResp, error) {
 	l := logic.NewRegisterLogic(ctx, s.svcCtx)
 	return l.Register(in)
+}
+
+// 用户信息
+func (s *UsersServer) GetUserInfo(ctx context.Context, in *user.UserInfoReq) (*user.UserInfoResp, error) {
+	l := logic.NewGetUserInfoLogic(ctx, s.svcCtx)
+	return l.GetUserInfo(in)
+}
+
+// 退出登录
+func (s *UsersServer) Logout(ctx context.Context, in *user.LogoutReq) (*user.Response, error) {
+	l := logic.NewLogoutLogic(ctx, s.svcCtx)
+	return l.Logout(in)
 }

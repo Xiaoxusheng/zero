@@ -11,7 +11,7 @@ message Response {
 }
 
 //注册
-message RegisterRes{
+message RegisterReq{
   string name = 1;
   string password = 2;
   string Phone = 3;
@@ -21,7 +21,7 @@ message RegisterRes{
 }
 
 //注册
-message RegisterReq{
+message RegisterResp{
   int32 code = 1;
   string msg = 2;
 }
@@ -33,7 +33,7 @@ message LoginRes {
 }
 
 message LoginResp {
-  string uid=1;
+  string uid = 1;
   string  name = 2;
   string Phone = 3;
   int32 sex = 4;
@@ -43,15 +43,34 @@ message LoginResp {
   string msg = 8;
 }
 //用户信息
-message UserInfo {
 
+message UserInfoReq {
+  string uid = 1;
 }
 
+message UserInfoResp {
+  string uid = 1;
+  string  name = 2;
+  string Phone = 3;
+  int32 sex = 4;
+  string background_image = 5;
+  string avatar = 6;
+  int32 code = 7;
+  string msg = 8;
+}
+
+
+message LogoutReq {
+  string uid = 1;
+}
 
 service Users {
   // 用户登录
   rpc Login(LoginRes) returns(LoginResp);
   // 用户注册
-  rpc Register(RegisterRes) returns(RegisterReq);
-
+  rpc Register(RegisterReq) returns(RegisterResp);
+  //  用户信息
+  rpc GetUserInfo (UserInfoReq) returns (UserInfoResp);
+  //  退出登录
+  rpc Logout (LogoutReq) returns (Response);
 }

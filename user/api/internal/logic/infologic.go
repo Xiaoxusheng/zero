@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"zero/user/code"
 
 	"zero/user/api/internal/svc"
 	"zero/user/api/internal/types"
@@ -24,7 +25,10 @@ func NewInfoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *InfoLogic {
 }
 
 func (l *InfoLogic) Info() (resp *types.Response, err error) {
-	// todo: add your logic here and delete this line
+	value := l.ctx.Value("uid").(string)
+	if value == "" {
+		return nil, code.UserUidNotFoundError
+	}
 
 	return
 }

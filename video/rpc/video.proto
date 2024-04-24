@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package video;
+option go_package="./video";
+
+message Request {
+  string ping = 1;
+}
+
+message Response {
+  string pong = 1;
+}
+
+service Video {
+  rpc Ping(Request) returns(Response);
+}

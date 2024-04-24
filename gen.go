@@ -22,3 +22,16 @@ package zero
 //go:generate   go run user.go -f etc/user-api.yaml
 //运行rpc
 //go:generate  go run user.go -f etc/user.yaml
+
+//-------------------------------------------------------------
+//生成video.api文件
+//go:generate goctl api  -o ./video/api/video.api
+
+//生成api
+//go:generate goctl api go -api ./video/api/video.api -dir=./video/api
+
+//生成video。proto文件
+//go:generate goctl rpc  --o ./video/rpc/video.proto
+
+//生成video.rpc
+//go:generate goctl rpc protoc ./video/rpc/video.proto --go_out=./video/rpc --go-grpc_out=./video/rpc --zrpc_out=./video/rpc

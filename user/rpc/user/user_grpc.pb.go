@@ -19,8 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Users_Login_FullMethodName    = "/user.Users/Login"
-	Users_Register_FullMethodName = "/user.Users/Register"
+	Users_Login_FullMethodName       = "/user.Users/Login"
+	Users_Register_FullMethodName    = "/user.Users/Register"
+	Users_GetUserInfo_FullMethodName = "/user.Users/GetUserInfo"
+	Users_Logout_FullMethodName      = "/user.Users/Logout"
 )
 
 // UsersClient is the client API for Users service.
@@ -30,7 +32,11 @@ type UsersClient interface {
 	// 用户登录
 	Login(ctx context.Context, in *LoginRes, opts ...grpc.CallOption) (*LoginResp, error)
 	// 用户注册
-	Register(ctx context.Context, in *RegisterRes, opts ...grpc.CallOption) (*RegisterReq, error)
+	Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error)
+	// 用户信息
+	GetUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error)
+	// 退出登录
+	Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*Response, error)
 }
 
 type usersClient struct {
@@ -50,9 +56,27 @@ func (c *usersClient) Login(ctx context.Context, in *LoginRes, opts ...grpc.Call
 	return out, nil
 }
 
-func (c *usersClient) Register(ctx context.Context, in *RegisterRes, opts ...grpc.CallOption) (*RegisterReq, error) {
-	out := new(RegisterReq)
+func (c *usersClient) Register(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*RegisterResp, error) {
+	out := new(RegisterResp)
 	err := c.cc.Invoke(ctx, Users_Register_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) GetUserInfo(ctx context.Context, in *UserInfoReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
+	out := new(UserInfoResp)
+	err := c.cc.Invoke(ctx, Users_GetUserInfo_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersClient) Logout(ctx context.Context, in *LogoutReq, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
+	err := c.cc.Invoke(ctx, Users_Logout_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,7 +90,11 @@ type UsersServer interface {
 	// 用户登录
 	Login(context.Context, *LoginRes) (*LoginResp, error)
 	// 用户注册
-	Register(context.Context, *RegisterRes) (*RegisterReq, error)
+	Register(context.Context, *RegisterReq) (*RegisterResp, error)
+	// 用户信息
+	GetUserInfo(context.Context, *UserInfoReq) (*UserInfoResp, error)
+	// 退出登录
+	Logout(context.Context, *LogoutReq) (*Response, error)
 	mustEmbedUnimplementedUsersServer()
 }
 
@@ -77,8 +105,14 @@ type UnimplementedUsersServer struct {
 func (UnimplementedUsersServer) Login(context.Context, *LoginRes) (*LoginResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedUsersServer) Register(context.Context, *RegisterRes) (*RegisterReq, error) {
+func (UnimplementedUsersServer) Register(context.Context, *RegisterReq) (*RegisterResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedUsersServer) GetUserInfo(context.Context, *UserInfoReq) (*UserInfoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserInfo not implemented")
+}
+func (UnimplementedUsersServer) Logout(context.Context, *LogoutReq) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Logout not implemented")
 }
 func (UnimplementedUsersServer) mustEmbedUnimplementedUsersServer() {}
 
@@ -112,7 +146,7 @@ func _Users_Login_Handler(srv interface{}, ctx context.Context, dec func(interfa
 }
 
 func _Users_Register_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterRes)
+	in := new(RegisterReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -124,7 +158,43 @@ func _Users_Register_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: Users_Register_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServer).Register(ctx, req.(*RegisterRes))
+		return srv.(UsersServer).Register(ctx, req.(*RegisterReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_GetUserInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserInfoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).GetUserInfo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_GetUserInfo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).GetUserInfo(ctx, req.(*UserInfoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Users_Logout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogoutReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServer).Logout(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Users_Logout_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServer).Logout(ctx, req.(*LogoutReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -143,6 +213,14 @@ var Users_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Register",
 			Handler:    _Users_Register_Handler,
+		},
+		{
+			MethodName: "GetUserInfo",
+			Handler:    _Users_GetUserInfo_Handler,
+		},
+		{
+			MethodName: "Logout",
+			Handler:    _Users_Logout_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -29,7 +29,7 @@ func NewRegisterLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Register
 	}
 }
 
-func (l *RegisterLogic) Register(in *user.RegisterRes) (*user.RegisterReq, error) {
+func (l *RegisterLogic) Register(in *user.RegisterReq) (*user.RegisterResp, error) {
 	//检测电话号码是否已经存在
 	u, err := l.svcCtx.UserModel.FindPhone(l.ctx, in.Phone)
 	if err != nil || u == nil {
@@ -68,7 +68,7 @@ func (l *RegisterLogic) Register(in *user.RegisterRes) (*user.RegisterReq, error
 	//写入缓存
 	l.svcCtx.Redis.HSet(l.ctx, uid, rediscache.Salt, base64.URLEncoding.EncodeToString(salt))
 
-	return &user.RegisterReq{
+	return &user.RegisterResp{
 		Code: http.StatusOK,
 		Msg:  "success",
 	}, nil

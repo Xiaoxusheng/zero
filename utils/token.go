@@ -8,15 +8,15 @@ import (
 )
 
 type MyCustomClaims struct {
-	Identity string `json:"identity"`
+	Uid string `json:"uid"`
 	jwt.RegisteredClaims
 }
 
-func GetToken(identity string, key string, times int32) string {
+func GetToken(uid string, key string, times int32) string {
 	var mySigningKey = []byte(key)
 	// Create claims with multiple fields populated
 	claims := MyCustomClaims{
-		identity,
+		uid,
 		jwt.RegisteredClaims{
 			// A usual scenario is to set the expiration time relative to the current time
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(times) * time.Second)),

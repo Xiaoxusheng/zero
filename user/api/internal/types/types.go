@@ -30,3 +30,14 @@ type LoginResp struct {
 	Code            int32  `json:"code"`
 	Msg             string `json:"msg"`
 }
+
+type UserinfoResp struct {
+	Username        string `json:"username"`
+	Password        string `json:"password"`
+	Sex             int32  `json:"sex"`
+	Phone           string `json:"phone"`
+	BackgroundImage string `json:"backgroundImage"`
+	Avatar          string `json:"avatar"`
+	Code            int32  `json:"code"`
+	Msg             string `json:"msg"`
+}
